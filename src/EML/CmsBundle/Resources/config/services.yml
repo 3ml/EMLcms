@@ -1,0 +1,46 @@
+parameters:
+
+    eml.twig_extension.class: EML\CmsBundle\Services\Extension\TwigExtension
+    
+    
+services:
+
+    eml.twig_extension:
+        class: %eml.twig_extension.class%
+        tags:
+            - { name: twig.extension }
+#    eml_cms.example:
+#        class: %eml_cms.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+    Globalizer:
+        class: EML\CmsBundle\Services\Globalizer
+        calls:
+          - [ setContainer,[ @service_container ] ]
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+
+#    sectioner:
+#        class: EML\CmsBundle\Services\Sectioner
+#        arguments: 
+#            entityManager: "@doctrine.orm.entity_manager"
+#    menuer:
+#        class: EML\CmsBundle\Services\Menuer
+#        arguments: 
+#            entityManager: "@doctrine.orm.entity_manager"
+#    featurer:
+#        class: EML\CmsBundle\Services\Featurer
+#        arguments: 
+#            entityManager: "@doctrine.orm.entity_manager"            
+#    attachmenter:
+#        class: EML\CmsBundle\Services\Attachmenter
+#        arguments: 
+#            entityManager: "@doctrine.orm.entity_manager"
+#    imager:
+#        class: EML\CmsBundle\Services\Imager
+#        arguments: 
+#            entityManager: "@doctrine.orm.entity_manager"
+#    linker:
+#        class: EML\CmsBundle\Services\Linker
+#        arguments: 
+#            entityManager: "@doctrine.orm.entity_manager"

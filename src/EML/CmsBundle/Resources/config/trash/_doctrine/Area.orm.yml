@@ -1,0 +1,57 @@
+EML\CmsBundle\Entity\Area:
+    type: entity
+    table: null
+    repositoryClass: EML\CmsBundle\Entity\AreaRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        idArea:
+            type: integer
+            column: id_area
+        idCategory:
+            type: integer
+            column: id_category
+        title:
+            type: string
+            length: '255'
+        slug:
+            type: string
+            length: 255
+        description:
+            type: string
+            length: 255
+        keywords:
+            type: string
+            length: 255
+        h1:
+            type: string
+            length: 255
+        h2:
+            type: string
+            length: 255
+        text:
+            type: string
+            length: 255
+        abstract:
+            type: text
+        weight:
+            type: integer
+        listed:
+            type: integer
+        isaccessible:
+            type: integer
+        redirect:
+            type: string
+            length: '900'
+        lang:
+            type: string
+            length: '20'
+        createdon:
+            type: integer
+        modifyon:
+            type: integer
+    lifecycleCallbacks: {  }

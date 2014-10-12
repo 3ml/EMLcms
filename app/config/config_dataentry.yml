@@ -1,0 +1,19 @@
+# app/config/config_dataentry.yml
+imports:
+    - { resource: config_prod.yml }
+
+#framework:
+#    profiler: { only_exceptions: false }
+
+doctrine:
+    dbal:
+        driver:   "%dataentry_database_driver%"
+        host:     "%dataentry_database_host%"
+        port:     "%dataentry_database_port%"
+        dbname:   "%dataentry_database_name%"
+        user:     "%dataentry_database_user%"
+        password: "%dataentry_database_password%"
+        charset:  UTF8
+        # if using pdo_sqlite as your database driver, add the path in parameters.yml
+        # e.g. database_path: "%kernel.root_dir%/data/data.db3"
+        # path:     "%database_path%"

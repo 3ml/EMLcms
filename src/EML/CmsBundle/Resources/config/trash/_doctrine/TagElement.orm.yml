@@ -1,0 +1,18 @@
+EML\CmsBundle\Entity\TagElement:
+    type: entity
+    table: null
+    repositoryClass: EML\CmsBundle\Entity\TagElementRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        idElement:
+            type: integer
+            column: id_element
+        idTag:
+            type: integer
+            column: id_tag
+    lifecycleCallbacks: {  }

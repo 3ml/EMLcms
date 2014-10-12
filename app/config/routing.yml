@@ -1,0 +1,4 @@
+eml_cms:
+    resource: "@EMLCmsBundle/Resources/config/routing.yml"
+    prefix:   /
+
