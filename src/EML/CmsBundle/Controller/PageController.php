@@ -32,6 +32,7 @@ class PageController extends Controller
         {
             $firstCat = $repo->findOneById($eleCat[0]->getId());
             $eleCatArea = $firstCat->getArea();
+            $catParentcat = $firstCat->getParentcat();
         }
         //echo'<pre>';print_r($eleCat);echo'</pre>';
         if (empty($ele) || !$ele)
@@ -56,6 +57,7 @@ class PageController extends Controller
             'featured' => $featured_home,
             'element' => $ele,
             'eleFirstCat' =>$eleCat[0],
+            'catParentcat' => $catParentcat,
             'eleAllCat' =>$eleCat,
             'eleCatArea'=>$eleCatArea,
             'menu' => $menu,
@@ -66,7 +68,7 @@ class PageController extends Controller
         
         $type=$ele->getView();
         $views = $this->setView("Element",$type);
-        //print_r($views);
+        //print_r($views); 
         return $this->render($views, $viewParams);
     }
 
