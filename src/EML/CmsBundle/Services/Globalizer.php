@@ -260,8 +260,14 @@ class Globalizer extends ContainerAware {
                             'eml_cms_element', array('slug'=>$Element->getSlug())
                     );
                 }
-                $new_rows[]=$I;
+                //$new_rows[]=$I;
+                $new_rows[$I['mt_slug']][]=$I;
+                
             }
+            /*
+             * Gabriele - Fix - 12 ott 2014
+             * Now the Menus return an array divided by MenuType Slug
+             */ 
             //echo'<pre>';print_r($new_rows);echo'</pre>';
         }
         
