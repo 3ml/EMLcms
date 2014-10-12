@@ -235,6 +235,16 @@ class Category
     }
     
     /**
+     * Get childscat
+     *
+     * @return integer 
+     */
+    public function getChildscat()
+    {
+        return $this->childscat;
+    }
+    
+    /**
      * Get id
      *
      * @return integer 

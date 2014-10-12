@@ -33,6 +33,7 @@ class PageController extends Controller
             $firstCat = $repo->findOneById($eleCat[0]->getId());
             $eleCatArea = $firstCat->getArea();
             $catParentcat = $firstCat->getParentcat();
+            $catChildcat = $firstCat->getChildscat();
         }
         //echo'<pre>';print_r($eleCat);echo'</pre>';
         if (empty($ele) || !$ele)
@@ -58,6 +59,7 @@ class PageController extends Controller
             'element' => $ele,
             'eleFirstCat' =>$eleCat[0],
             'catParentcat' => $catParentcat,
+            'catChildcat' => $catChildcat, 
             'eleAllCat' =>$eleCat,
             'eleCatArea'=>$eleCatArea,
             'menu' => $menu,
