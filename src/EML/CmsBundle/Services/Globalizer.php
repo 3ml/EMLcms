@@ -310,7 +310,17 @@ class Globalizer extends ContainerAware {
                     (($idElement===null || !is_numeric($idElement)) ? 'IS NULL' : '= '.$idElement);
         $query = $em->createQuery($Q);
         
-        return $this->tryCatch($query);
+        //return $this->tryCatch($query);
+        $new_rows=array();
+        $res = $this->tryCatch($query);
+        if(!empty($res))
+        {
+            foreach ($res AS $I)
+            {
+                $new_rows[$I['ft_slug']][]=$I;
+            }
+        }
+        return $new_rows;
     }
     
     
