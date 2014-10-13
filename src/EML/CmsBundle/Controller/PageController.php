@@ -28,6 +28,7 @@ class PageController extends Controller
             ->getRepository('EMLCmsBundle:Category');
         
         $eleCatArea=null;
+        $catParentcat=null;
         if(isset($eleCat[0]))
         {
             $firstCat = $repo->findOneById($eleCat[0]->getId());
