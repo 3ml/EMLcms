@@ -29,6 +29,7 @@ class PageController extends Controller
         
         $eleCatArea=null;
         $catParentcat=null;
+        $catChildcat=null;
         if(isset($eleCat[0]))
         {
             $firstCat = $repo->findOneById($eleCat[0]->getId());
