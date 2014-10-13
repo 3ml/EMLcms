@@ -222,8 +222,8 @@ class PageController extends Controller
         
         
         //$limit = 2;
-        $limit = ($this->container->hasParameter('category.page.limit'))
-                ?$this->container->getParameter('category.page.limit')
+        $limit = ($this->container->hasParameter('category_page_limit'))
+                ?$this->container->getParameter('category_page_limit')
                 :1;
         
         $from  = (($page * $limit) - $limit);

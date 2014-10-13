@@ -76,3 +76,4 @@ parameters:
     mail_contact_info: jacopo.pace@gmail.com
     web_path: %kernel.root_dir%/../web
     #gabriele.marazzi@gmail.com
+    category_page_limit: 2
