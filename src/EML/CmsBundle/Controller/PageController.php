@@ -179,9 +179,16 @@ class PageController extends Controller
         return $this->render($views, $viewParams);
     }
 
-    public function categoryAction($slug, Request $request)
+    public function categoryAction($slug, $page, Request $request)
     {
         $LOCAL = $this->get('request')->getLocale();
+        if($page=="1")
+            return $this->redirect($this->generateUrl('eml_cms_cat', array('slug'=>$slug)));
+        if($page==NULL)
+            $page="1";
+        
+        
+        
         
         $repo = $this->getDoctrine()
             ->getRepository('EMLCmsBundle:Category');
@@ -211,9 +218,28 @@ class PageController extends Controller
         $link = $Globalizer->getLinks($LOCAL,$idCategory,NULL);
         
         $qb = $this->getDoctrine()->getManager()->createQueryBuilder();
-
+        $qb2 = $this->getDoctrine()->getManager()->createQueryBuilder();
+        
+        
+        //$limit = 2;
+        $limit = ($this->container->hasParameter('category.page.limit'))
+                ?$this->container->getParameter('category.page.limit')
+                :1;
+        
+        $from  = (($page * $limit) - $limit);
+        
+        $total_count = $qb2->select("COUNT(e)") 
+            ->from('EMLCmsBundle:Element', 'e')
+            ->innerJoin('e.categories','c')
+            ->where('e.isaccessible = 1')
+            ->andWhere(" e.lang = '".$LOCAL."' ")
+            ->andWhere('c.id = :idCategory')->setParameter('idCategory',$idCategory)
+            ->getQuery()->getSingleScalarResult();
+            //print_r($total_count);
+        $total_pages = ceil($total_count / $limit);
+        
         # get child elements:
-        $elements = $qb->select('
+        $dql='
                 e.id,
                 e.title,
                 e.slug,
@@ -230,14 +256,21 @@ class PageController extends Controller
                 e.lang,
                 e.createdon,
                 e.modifyon
-            ')
+            ';
+        $qb->select($dql)
             ->from('EMLCmsBundle:Element', 'e')
             ->innerJoin('e.categories','c')
             ->where('e.isaccessible = 1')
             ->andWhere(" e.lang = '".$LOCAL."' ")
-            ->andWhere('c.id = :idCategory')->setParameter('idCategory',$idCategory)
-            ->getQuery()
-            ->execute();
+            ->andWhere('c.id = :idCategory')->setParameter('idCategory',$idCategory);
+        
+            
+            $elements = $qb->getQuery()
+            ->setFirstResult($from)
+            ->setMaxResults($limit)
+            ->getResult();
+        
+        
         
         # get child cats:
         $qb2 = $this->getDoctrine()->getManager()->createQueryBuilder();
@@ -267,6 +300,25 @@ class PageController extends Controller
             ->execute();
 
         
+        
+        /*
+         * SetUp the params array for passing
+         * all the required vars to the paginators
+         * for construct the url
+         */
+        $routeParams=array('slug'=>$slug);
+        $pagination=$Globalizer->pagination(array(
+            'from'=>$from,
+            'limit'=>$limit,
+            'total_pages'=>$total_pages,
+            'current_page'=>$page,
+            'container'=>$this,
+            'routeParams'=>$routeParams
+        ));
+        if($page>$total_pages)
+            throw new NotFoundHttpException("Page not found");
+        
+        
         $viewParams = array(
             'sections'=>$sections,
             'slug' => $slug,
@@ -281,7 +333,11 @@ class PageController extends Controller
             'image' => $image,
             'attach' => $attach,
             'link' => $link,
+            'pagination'=>$pagination,
         );
+        
+        
+        
         
         #$viewParams['Variables']=json_encode($viewParams);
         //print_r($viewParams['Variables']);

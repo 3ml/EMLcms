@@ -44,7 +44,7 @@ class HomeController extends Controller
         #$viewParams['Variables']=json_encode($viewParams,true);
         
         
-        //$viewParams['Variables']=$viewParams;
+        $viewParams['Variables']=$viewParams;
         //echo'<pre>';print_r($viewParams);echo'</pre>';
         return $this->render('EMLCmsBundle:Home:index.html.twig', $viewParams);
     }

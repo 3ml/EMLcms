@@ -9,7 +9,7 @@ use \Symfony\Component\DependencyInjection\ContainerAware;
 class Globalizer extends ContainerAware {
 
     /**
-     *
+     * 
      * @var EntityManager
      */
     protected $em;
@@ -425,5 +425,60 @@ class Globalizer extends ContainerAware {
         }
         return $result;
     }
+
     
+    
+    
+    
+    function pagination($params)
+    {
+        /*
+         * Current vars passed
+         * 2DO -> Activation of multiple urls
+
+            'from'=>$from,
+            'limit'=>$limit,
+            'total_pages'=>$total_pages,
+            'current_page'=>$page,
+         */
+        $total_pages = $params['total_pages'];
+        $page = $params['current_page'];
+        $container = $params['container'];
+        
+        $routeParams = $params['routeParams'];
+        extract($routeParams);
+                
+        $params['next_url']=NULL;
+        $params['prev_url']=NULL;
+        $params['next']=($page<$total_pages)?($page+1):null;
+        $params['prev']=($page>1)?($page-1):null;
+        
+        //print_r($rr['_route_params']);
+        
+        if(!empty($params['next']))
+            $params['next_url']=$container->generateUrl('eml_cms_cat_page', array('slug'=>$slug,'page'=>$params['next']));
+        
+        if(!empty($params['prev']))
+        {
+            if($params['prev']==1)
+                $params['prev_url']=$container->generateUrl('eml_cms_cat', array('slug'=>$slug));
+            else
+                $params['prev_url']=$container->generateUrl('eml_cms_cat_page', array('slug'=>$slug,'page'=>$params['prev']));
+        }
+        
+        for ($i=1;$i<=$total_pages;$i++)
+        {
+            $selected=($page==$i)?"sel":"";
+            $url=($i==1)
+                    ?$container->generateUrl('eml_cms_cat', array('slug'=>$slug))
+                    :$container->generateUrl('eml_cms_cat_page', array('slug'=>$slug,'page'=>$i));
+            $params['pages'][]=array(
+                'url'=>$url,
+                'number'=>$i,
+                'sel'=>$selected
+            );
+        }
+        
+        return $params;
+    }
 }
